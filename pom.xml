@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (C) 2016 the original author or authors.
+    Copyright (C) 2018 the original author or authors.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -29,10 +29,10 @@
   <groupId>com.youkol.support.storage</groupId>
   <artifactId>storage-parent</artifactId>
   <packaging>pom</packaging>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.1.0-SNAPSHOT</version>
 
-  <name>Local and Cloud Storage support.</name>
-  <description>Local and Cloud Storage support.</description>
+  <name>Parent pom for Local and Cloud Storage support</name>
+  <description>Parent pom for Local and Cloud Storage support.</description>
   <url>https://github.com/youkol/storage-support</url>
 
   <inceptionYear>2018</inceptionYear>
@@ -72,10 +72,9 @@
     <url>https://github.com/youkol/storage-support/issues</url>
   </issueManagement>
 
-  <!-- <modules>
+  <modules>
     <module>storage-support</module>
-    <module>storage-spring-boot-starter</module>
-  </modules> -->
+  </modules>
 
   <properties>
     <java.version>1.8</java.version>
