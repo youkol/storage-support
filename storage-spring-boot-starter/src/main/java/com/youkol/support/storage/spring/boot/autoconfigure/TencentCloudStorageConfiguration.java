@@ -20,12 +20,19 @@ import com.youkol.support.storage.StorageService;
 import com.youkol.support.storage.oss.tencent.TencentCloudStorageConfig;
 import com.youkol.support.storage.oss.tencent.TencentCloudStorageService;
 import com.youkol.support.storage.spring.boot.autoconfigure.StorageProperties.Tencent;
+import com.youkol.support.storage.spring.boot.autoconfigure.TencentCloudStorageConfiguration.TencentAvailableCondition;
 
+import org.springframework.boot.autoconfigure.condition.ConditionMessage;
+import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.SpringBootCondition;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ConditionContext;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+import org.springframework.core.type.AnnotatedTypeMetadata;
 
 /**
  *
@@ -34,7 +41,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnClass({ COSClient.class, TencentCloudStorageService.class })
 @ConditionalOnMissingBean(StorageService.class)
-@Conditional(StorageCondition.class)
+@Conditional({ StorageCondition.class, TencentAvailableCondition.class })
 class TencentCloudStorageConfiguration {
 
     @Bean
@@ -50,5 +57,21 @@ class TencentCloudStorageConfiguration {
 
         TencentCloudStorageService storageService = new TencentCloudStorageService(storageConfig);
         return storageService;
+    }
+
+    static class TencentAvailableCondition extends SpringBootCondition {
+
+        @Override
+        public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
+            ConditionMessage.Builder message = ConditionMessage.forCondition("Tencent");
+            String accessKeyProperty = "youkol.storage.oss.tencent.secretId";
+            Environment environment = context.getEnvironment();
+            if (environment.containsProperty(accessKeyProperty)) {
+                return ConditionOutcome.match(message.because("secretId property exists"));
+            }
+
+            return ConditionOutcome.noMatch(message.because("has not been set"));
+        }
+
     }
 }

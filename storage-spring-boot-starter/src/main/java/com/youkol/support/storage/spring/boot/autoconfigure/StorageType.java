@@ -20,10 +20,7 @@ package com.youkol.support.storage.spring.boot.autoconfigure;
  * @author jackiea
  */
 public enum StorageType {
-/**
-     * Local disk storage
-     */
-    LOCAL,
+
     /**
      * Aliyun oss
      */
@@ -42,7 +39,11 @@ public enum StorageType {
     /**
      * Qiniu oss
      */
-    QINIU
+    QINIU,
 
+    /**
+     * Local disk storage
+     */
+    LOCAL
 
 }

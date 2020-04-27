@@ -18,13 +18,20 @@ package com.youkol.support.storage.spring.boot.autoconfigure;
 import com.youkol.support.storage.StorageService;
 import com.youkol.support.storage.local.LocalDiskStorageConfig;
 import com.youkol.support.storage.local.LocalDiskStorageService;
+import com.youkol.support.storage.spring.boot.autoconfigure.LocalDiskStorageConfiguration.LocalAvailableCondition;
 import com.youkol.support.storage.spring.boot.autoconfigure.StorageProperties.LocalDisk;
 
+import org.springframework.boot.autoconfigure.condition.ConditionMessage;
+import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.SpringBootCondition;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ConditionContext;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+import org.springframework.core.type.AnnotatedTypeMetadata;
 
 /**
  *
@@ -33,7 +40,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnClass({ LocalDiskStorageService.class })
 @ConditionalOnMissingBean(StorageService.class)
-@Conditional(StorageCondition.class)
+@Conditional({ StorageCondition.class, LocalAvailableCondition.class })
 class LocalDiskStorageConfiguration {
 
     @Bean
@@ -46,5 +53,21 @@ class LocalDiskStorageConfiguration {
 
         LocalDiskStorageService storageService = new LocalDiskStorageService(storageConfig);
         return storageService;
+    }
+
+    static class LocalAvailableCondition extends SpringBootCondition {
+
+        @Override
+        public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
+            ConditionMessage.Builder message = ConditionMessage.forCondition("Local");
+            String uploadLocationProperty = "youkol.storage.oss.local.upload-location";
+            Environment environment = context.getEnvironment();
+            if (environment.containsProperty(uploadLocationProperty)) {
+                return ConditionOutcome.match(message.because("uploadLocation property exists"));
+            }
+
+            return ConditionOutcome.noMatch(message.because("has not been set"));
+        }
+
     }
 }

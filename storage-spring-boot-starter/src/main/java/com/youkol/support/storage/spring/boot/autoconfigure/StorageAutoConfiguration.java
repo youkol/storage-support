@@ -18,14 +18,19 @@ package com.youkol.support.storage.spring.boot.autoconfigure;
 import com.youkol.support.storage.StorageService;
 import com.youkol.support.storage.spring.boot.autoconfigure.StorageAutoConfiguration.StorageConfigurationImportSelector;
 
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportSelector;
 import org.springframework.core.type.AnnotationMetadata;
+import org.springframework.util.Assert;
 
 /**
+ * 参照CacheAutoConfiguration实现此功能
  *
  * @author jackiea
  */
@@ -34,6 +39,30 @@ import org.springframework.core.type.AnnotationMetadata;
 @EnableConfigurationProperties(StorageProperties.class)
 @Import(StorageConfigurationImportSelector.class)
 public class StorageAutoConfiguration {
+
+    @Bean
+    public StorageServiceValidator storageAutoConfigurationValidator(StorageProperties storageProperties, ObjectProvider<StorageService> storageService) {
+        return new StorageServiceValidator(storageProperties, storageService);
+    }
+
+    static class StorageServiceValidator implements InitializingBean {
+
+        private final StorageProperties storageProperties;
+
+        private final ObjectProvider<StorageService> storageService;
+
+        public StorageServiceValidator(StorageProperties storageProperties, ObjectProvider<StorageService> storageService) {
+            this.storageProperties = storageProperties;
+            this.storageService = storageService;
+        }
+
+        @Override
+        public void afterPropertiesSet() throws Exception {
+            Assert.notNull(this.storageService.getIfAvailable(),
+                () -> "No Storage Service could be auto-configured, check your configuration (storage type is '"
+                + this.storageProperties.getType() + "')");
+        }
+    }
 
     static class StorageConfigurationImportSelector implements ImportSelector {
 

@@ -16,7 +16,6 @@
 package com.youkol.support.storage;
 
 import java.io.InputStream;
-import java.nio.file.Paths;
 
 import com.google.common.base.Strings;
 
@@ -59,11 +58,7 @@ public abstract class AbstractStorageService<T extends StorageConfig> implements
         String result = Strings.nullToEmpty(key);
         String domain = storageConfig.getDomain();
         if (!Strings.isNullOrEmpty(domain)) {
-            result = Paths.get(storageConfig.getDomain(), key).toString();
-        }
-
-        if (result.startsWith("/") || result.startsWith("\\")) {
-            result = result.substring(1);
+            result = domain + "/" + key;
         }
 
         return Strings.emptyToNull(result);
