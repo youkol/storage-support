@@ -19,21 +19,17 @@ import java.io.InputStream;
 import java.nio.file.Paths;
 
 import com.google.common.base.Strings;
-import com.youkol.support.storage.exception.StorageException;
 
 /**
- * 存储服务抽象类实现
+ * 对象存储服务抽象类实现
  *
  * @author jackiea
  */
-public abstract class AbstractStorageService implements StorageService {
+public abstract class AbstractStorageService<T extends StorageConfig> implements StorageService {
 
-    protected StorageConfig storageConfig;
+    protected final T storageConfig;
 
-    public AbstractStorageService() {
-    }
-
-    public AbstractStorageService(StorageConfig storageConfig) {
+    public AbstractStorageService(T storageConfig) {
         this.storageConfig = storageConfig;
     }
 
@@ -73,12 +69,8 @@ public abstract class AbstractStorageService implements StorageService {
         return Strings.emptyToNull(result);
     }
 
-    public StorageConfig getStorageConfig() {
+    public T getStorageConfig() {
         return storageConfig;
-    }
-
-    public void setStorageConfig(StorageConfig storageConfig) {
-        this.storageConfig = storageConfig;
     }
 
 }

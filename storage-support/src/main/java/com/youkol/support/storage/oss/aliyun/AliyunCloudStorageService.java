@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.youkol.support.storage.aliyun;
+package com.youkol.support.storage.oss.aliyun;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -22,34 +22,35 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.youkol.support.storage.AbstractStorageService;
-import com.youkol.support.storage.exception.StorageException;
+import com.youkol.support.storage.StorageException;
 
 /**
- * 阿里云存储
+ * 阿里云对象存储
+ * @see <a href="https://help.aliyun.com/document_detail/32008.html">阿里云对象存储开发文档</a>
  *
- * @see https://help.aliyun.com/document_detail/32008.html
  * @author jackiea
  */
-public class AliyunCloudStorageService extends AbstractStorageService {
-
-    private String accessKeyId;
-
-    private String accessKeySecret;
-
-    private String endpoint;
-
-    private String bucketName;
+public class AliyunCloudStorageService extends AbstractStorageService<AliyunCloudStorageConfig> {
 
     private OSS ossClient;
 
-    public AliyunCloudStorageService() {
-        super();
-        ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+    public AliyunCloudStorageService(AliyunCloudStorageConfig storageConfig) {
+        super(storageConfig);
+        this.init();
+    }
+
+    protected void init() {
+        String endpoint = this.getStorageConfig().getEndpoint();
+        String accessKeyId = this.getStorageConfig().getAccessKeyId();
+        String accessKeySecret = this.getStorageConfig().getAccessKeySecret();
+
+        this.ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
     }
 
     @Override
     protected void doPutObject(String key, InputStream inputStream) throws StorageException {
         try {
+            String bucketName = this.getStorageConfig().getBucketName();
             PutObjectRequest request = new PutObjectRequest(bucketName, key, inputStream);
             ossClient.putObject(request);
         } catch (Exception ex) {
@@ -60,6 +61,10 @@ public class AliyunCloudStorageService extends AbstractStorageService {
     @Override
     protected void doPutObject(String key, byte[] content) throws StorageException {
         putObject(key, new ByteArrayInputStream(content));
+    }
+
+    public OSS getOssClient() {
+        return ossClient;
     }
 
 }

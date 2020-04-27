@@ -13,30 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.youkol.support.storage.exception;
+package com.youkol.support.storage.spring.boot.autoconfigure;
 
 /**
- * 存储异常类
  *
  * @author jackiea
  */
-public class StorageException extends Exception {
+public enum StorageType {
+/**
+     * Local disk storage
+     */
+    LOCAL,
+    /**
+     * Aliyun oss
+     */
+    ALIYUN,
 
-    private static final long serialVersionUID = 1L;
+    /**
+     * Tencent oss
+     */
+    TENCENT,
 
-    public StorageException() {
-        super();
-    }
+    /**
+     * Baidu oss
+     */
+    BAIDU,
 
-    public StorageException(String message, Throwable cause) {
-        super(message, cause);
-    }
+    /**
+     * Qiniu oss
+     */
+    QINIU
 
-    public StorageException(String message) {
-        super(message);
-    }
 
-    public StorageException(Throwable cause) {
-        super(cause);
-    }
 }

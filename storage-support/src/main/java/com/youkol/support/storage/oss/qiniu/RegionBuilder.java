@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.youkol.support.storage.qiniu;
+package com.youkol.support.storage.oss.qiniu;
 
 import java.util.Objects;
 
@@ -22,15 +22,16 @@ import com.qiniu.storage.Region;
 /**
  * 七牛Region封装, 通过定义的名称直接获取对应的Region
  * 对应关系如下：
- * z0 => 华东机房
- * z1 => 华北机房
- * z2 => 华南机房
- * na0 => 北美机房
- * as0 => 东南亚/新加坡机房
- * qvm-z0 => 华东机房内网
- * qvm-z1 => 华北机房
- * auto => region名称为空，或者为auto时，即为不指定，均为autoRegion
- *
+ * <pre>
+ * z0      : 华东机房
+ * z1      : 华北机房
+ * z2      : 华南机房
+ * na0     : 北美机房
+ * as0     : 东南亚/新加坡机房
+ * qvm-z0  : 华东机房内网
+ * qvm-z1  : 华北机房
+ * auto    : region名称为空，或者为auto时，即为不指定，均为autoRegion
+ * </pre>
  *
  * @author jackiea
  */

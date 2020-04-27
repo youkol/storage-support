@@ -22,10 +22,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import com.youkol.support.storage.AbstractStorageService;
-import com.youkol.support.storage.exception.StorageException;
+import com.youkol.support.storage.StorageException;
 
 /**
- * 本地磁盘存储服务 <br/>
+ * 本地磁盘存储服务 <br>
  * 示例：
  * <pre>
  *     LocalDiskStorageConfig localConfig = new LocalDiskStorageConfig();
@@ -37,7 +37,7 @@ import com.youkol.support.storage.exception.StorageException;
  *
  * @author jackiea
  */
-public class LocalDiskStorageService extends AbstractStorageService {
+public class LocalDiskStorageService extends AbstractStorageService<LocalDiskStorageConfig> {
 
     public LocalDiskStorageService(LocalDiskStorageConfig storageConfig) {
         super(storageConfig);

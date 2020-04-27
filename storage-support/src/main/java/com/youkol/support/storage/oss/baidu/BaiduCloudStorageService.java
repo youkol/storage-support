@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.youkol.support.storage.baidu;
+package com.youkol.support.storage.oss.baidu;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -24,39 +24,41 @@ import com.baidubce.services.bos.BosClient;
 import com.baidubce.services.bos.BosClientConfiguration;
 import com.baidubce.services.bos.model.PutObjectRequest;
 import com.youkol.support.storage.AbstractStorageService;
-import com.youkol.support.storage.exception.StorageException;
+import com.youkol.support.storage.StorageException;
 
 /**
- * 百度云存储
+ * 百度云对象存储
  *
- * @see https://cloud.baidu.com/doc/BOS/s/Fjwvyrqw2
+ * @see <a href="https://cloud.baidu.com/doc/BOS/s/Fjwvyrqw2">百度云对象存储开发文档</a>
+ *
  * @author jackiea
  */
-public class BaiduCloudStorageService extends AbstractStorageService {
-
-    private String accessKeyId;
-
-    private String accessKeySecret;
-
-    private String bucketName;
-
-    private String endpoint;
+public class BaiduCloudStorageService extends AbstractStorageService<BaiduCloudStorageConfig> {
 
     private BosClient bosClient;
 
-    public BaiduCloudStorageService() {
-        super();
+    public BaiduCloudStorageService(BaiduCloudStorageConfig storageConfig) {
+        super(storageConfig);
+        this.init();
+    }
+
+    protected void init() {
+        String endpoint = this.getStorageConfig().getEndpoint();
+        String accessKeyId = this.getStorageConfig().getAccessKeyId();
+        String accessKeySecret = this.getStorageConfig().getAccessKeySecret();
 
         BceCredentials credentials = new DefaultBceCredentials(accessKeyId, accessKeySecret);
         BosClientConfiguration bosClientConfiguration = new BosClientConfiguration()
             .withCredentials(credentials)
             .withEndpoint(endpoint);
-        bosClient = new BosClient(bosClientConfiguration);
+
+        this.bosClient = new BosClient(bosClientConfiguration);
     }
 
     @Override
     protected void doPutObject(String key, InputStream inputStream) throws StorageException {
         try {
+            String bucketName = this.getStorageConfig().getBucketName();
             PutObjectRequest request = new PutObjectRequest(bucketName, key, inputStream);
             bosClient.putObject(request);
         } catch (Exception ex) {
@@ -69,5 +71,7 @@ public class BaiduCloudStorageService extends AbstractStorageService {
         putObject(key, new ByteArrayInputStream(content));
     }
 
-
+    public BosClient getBosClient() {
+        return bosClient;
+    }
 }

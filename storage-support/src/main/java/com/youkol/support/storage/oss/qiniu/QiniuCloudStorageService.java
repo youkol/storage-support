@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.youkol.support.storage.qiniu;
+package com.youkol.support.storage.oss.qiniu;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,34 +25,35 @@ import com.qiniu.storage.Region;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
 import com.youkol.support.storage.AbstractStorageService;
-import com.youkol.support.storage.exception.StorageException;
+import com.youkol.support.storage.StorageException;
 
 /**
- * 七牛云存储
+ * 七牛云对象存储
  *
- * @see https://developer.qiniu.com/kodo/sdk/1239/java
+ * @see <a href="https://developer.qiniu.com/kodo/sdk/1239/java">七牛云对象存储开发文档</a>
  *
  * @author jackiea
  */
-public class QiniuCloudStorageService extends AbstractStorageService {
-
-    private String accessKey;
-
-    private String secretKey;
-
-    private String bucketName;
-
-    private String regionName;
+public class QiniuCloudStorageService extends AbstractStorageService<QiniuCloudStorageConfig> {
 
     private UploadManager uploadManager;
 
     private String upToken;
 
-    public QiniuCloudStorageService() {
-        super();
+    public QiniuCloudStorageService(QiniuCloudStorageConfig storageConfig) {
+        super(storageConfig);
+        this.init();
+    }
+
+    protected void init() {
+        String accessKey = this.getStorageConfig().getAccessKey();
+        String secretKey = this.getStorageConfig().getSecretKey();
+        String regionName = this.getStorageConfig().getRegionName();
+        String bucketName = this.getStorageConfig().getBucketName();
+
         Region region = new RegionBuilder().region(regionName).build();
         Configuration configuration = new Configuration(region);
-        uploadManager = new UploadManager(configuration);
+        this.uploadManager = new UploadManager(configuration);
 
         Auth auth = Auth.create(accessKey, secretKey);
         this.upToken = auth.uploadToken(bucketName);
@@ -77,6 +78,14 @@ public class QiniuCloudStorageService extends AbstractStorageService {
         } catch (Exception ex) {
             throw new StorageException(ex);
         }
+    }
+
+    public UploadManager getUploadManager() {
+        return uploadManager;
+    }
+
+    public String getUpToken() {
+        return upToken;
     }
 
 }

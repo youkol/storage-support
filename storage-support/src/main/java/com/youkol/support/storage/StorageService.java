@@ -17,10 +17,8 @@ package com.youkol.support.storage;
 
 import java.io.InputStream;
 
-import com.youkol.support.storage.exception.StorageException;
-
 /**
- * 存储服务接口
+ * 对象存储服务接口
  *
  * @author jackiea
  */

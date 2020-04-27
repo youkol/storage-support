@@ -74,6 +74,7 @@
 
   <modules>
     <module>storage-support</module>
+    <module>storage-spring-boot-starter</module>
   </modules>
 
   <properties>
@@ -89,6 +90,29 @@
     <baidu.bce.version>0.10.92</baidu.bce.version>
     <spring.boot.version>2.2.4.RELEASE</spring.boot.version>
   </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.aliyun.oss</groupId>
+      <artifactId>aliyun-sdk-oss</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>com.qcloud</groupId>
+      <artifactId>cos_api</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>com.baidubce</groupId>
+      <artifactId>bce-java-sdk</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>com.qiniu</groupId>
+      <artifactId>qiniu-java-sdk</artifactId>
+      <optional>true</optional>
+    </dependency>
+  </dependencies>
 
   <dependencyManagement>
     <dependencies>
