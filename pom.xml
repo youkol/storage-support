@@ -29,7 +29,7 @@
   <groupId>com.youkol.support.storage</groupId>
   <artifactId>storage-parent</artifactId>
   <packaging>pom</packaging>
-  <version>0.1.0</version>
+  <version>0.1.1-SNAPSHOT</version>
 
   <name>Parent pom for Local and Cloud Storage support</name>
   <description>Parent pom for Local and Cloud Storage support.</description>
