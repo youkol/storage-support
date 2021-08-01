@@ -28,7 +28,7 @@ public abstract class AbstractStorageService<T extends StorageConfig> implements
 
     protected final T storageConfig;
 
-    public AbstractStorageService(T storageConfig) {
+    protected AbstractStorageService(T storageConfig) {
         this.storageConfig = storageConfig;
     }
 

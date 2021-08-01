@@ -42,6 +42,11 @@ public enum StorageType {
     QINIU,
 
     /**
+     * MinIO
+     */
+    MINIO,
+
+    /**
      * Local disk storage
      */
     LOCAL

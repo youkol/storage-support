@@ -55,8 +55,7 @@ class QiniuCloudStorageConfiguration {
         storageConfig.setBucketName(qiniu.getBucketName());
         storageConfig.setRegionName(qiniu.getRegionName());
 
-        QiniuCloudStorageService storageService = new QiniuCloudStorageService(storageConfig);
-        return storageService;
+        return new QiniuCloudStorageService(storageConfig);
     }
 
     static class QiniuAvailableCondition extends SpringBootCondition {

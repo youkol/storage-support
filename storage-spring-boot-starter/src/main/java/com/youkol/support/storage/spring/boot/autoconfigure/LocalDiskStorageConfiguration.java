@@ -51,8 +51,7 @@ class LocalDiskStorageConfiguration {
         storageConfig.setDomain(localDisk.getDomain());
         storageConfig.setUploadLocation(localDisk.getUploadLocation());
 
-        LocalDiskStorageService storageService = new LocalDiskStorageService(storageConfig);
-        return storageService;
+        return new LocalDiskStorageService(storageConfig);
     }
 
     static class LocalAvailableCondition extends SpringBootCondition {

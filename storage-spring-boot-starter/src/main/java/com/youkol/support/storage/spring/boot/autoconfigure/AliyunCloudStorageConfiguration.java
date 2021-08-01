@@ -55,8 +55,7 @@ class AliyunCloudStorageConfiguration {
         storageConfig.setBucketName(aliyun.getBucketName());
         storageConfig.setEndpoint(aliyun.getEndpoint());
 
-        AliyunCloudStorageService storageService = new AliyunCloudStorageService(storageConfig);
-        return storageService;
+        return new AliyunCloudStorageService(storageConfig);
     }
 
     static class AliyunAvailableCondition extends SpringBootCondition {

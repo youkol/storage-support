@@ -55,8 +55,7 @@ class TencentCloudStorageConfiguration {
         storageConfig.setBucketName(tencent.getBucketName());
         storageConfig.setRegionName(tencent.getRegionName());
 
-        TencentCloudStorageService storageService = new TencentCloudStorageService(storageConfig);
-        return storageService;
+        return new TencentCloudStorageService(storageConfig);
     }
 
     static class TencentAvailableCondition extends SpringBootCondition {

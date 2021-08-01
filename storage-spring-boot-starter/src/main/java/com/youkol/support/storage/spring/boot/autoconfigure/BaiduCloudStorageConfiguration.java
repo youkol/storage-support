@@ -55,8 +55,7 @@ class BaiduCloudStorageConfiguration {
         storageConfig.setBucketName(baidu.getBucketName());
         storageConfig.setEndpoint(baidu.getEndpoint());
 
-        BaiduCloudStorageService storageService = new BaiduCloudStorageService(storageConfig);
-        return storageService;
+        return new BaiduCloudStorageService(storageConfig);
     }
 
     static class BaiduAvailableCondition extends SpringBootCondition {
