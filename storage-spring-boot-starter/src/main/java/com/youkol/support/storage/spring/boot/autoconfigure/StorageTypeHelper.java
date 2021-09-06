@@ -33,6 +33,7 @@ class StorageTypeHelper {
         mappings.put(StorageType.TENCENT, TencentCloudStorageConfiguration.class);
         mappings.put(StorageType.BAIDU, BaiduCloudStorageConfiguration.class);
         mappings.put(StorageType.QINIU, QiniuCloudStorageConfiguration.class);
+        mappings.put(StorageType.MINIO, MinioStorageConfiguration.class);
 
         MAPPINGS = Collections.unmodifiableMap(mappings);
     }
