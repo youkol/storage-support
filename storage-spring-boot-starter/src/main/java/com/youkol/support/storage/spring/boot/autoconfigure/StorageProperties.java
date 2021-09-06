@@ -38,6 +38,8 @@ public class StorageProperties {
 
     private final Minio minio = new Minio();
 
+    private final FastDfs fastdfs = new FastDfs();
+
     public StorageType getType() {
         return type;
     }
@@ -68,6 +70,10 @@ public class StorageProperties {
 
     public Minio getMinio() {
         return minio;
+    }
+
+    public FastDfs getFastdfs() {
+        return fastdfs;
     }
 
     public static class LocalDisk {
@@ -360,4 +366,15 @@ public class StorageProperties {
 
     }
 
+    public static class FastDfs {
+        private String domain;
+
+        public String getDomain() {
+            return domain;
+        }
+
+        public void setDomain(String domain) {
+            this.domain = domain;
+        }
+    }
 }

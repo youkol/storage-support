@@ -33,32 +33,46 @@ public abstract class AbstractStorageService<T extends StorageConfig> implements
     }
 
     public String putObject(String key, InputStream inputStream) throws StorageException {
-        this.doPutObject(key, inputStream);
-        return this.getObjectUrl(key);
+        String keyPath = this.doPutObject(key, inputStream);
+        return this.getObjectUrl(keyPath);
     }
 
     public String putObject(String key, byte[] content) throws StorageException {
-        this.doPutObject(key, content);
-        return this.getObjectUrl(key);
+        String keyPath =this.doPutObject(key, content);
+        return this.getObjectUrl(keyPath);
     }
 
-    protected abstract void doPutObject(String key, InputStream inputStream) throws StorageException;
+    /**
+     * 上传对象操作
+     *
+     * @param key         待上传的对象， 上传文件到OSS时需要指定包含文件后缀在内的完整路径， 例如abc/efg/123.jpg。
+     * @param inputStream 文件/对象数据流
+     * @return 上传对象在存储服务中的完整路径
+     * @throws StorageException 存储异常信息
+     */
+    protected abstract String doPutObject(String key, InputStream inputStream) throws StorageException;
 
-    protected abstract void doPutObject(String key, byte[] content) throws StorageException;
+    /**
+     * 上传对象操作
+     *
+     * @param key     待上传的对象， 上传文件到OSS时需要指定包含文件后缀在内的完整路径， 例如abc/efg/123.jpg。
+     * @param content 文件/对象的字节数组
+     * @return 上传对象在存储服务中的完整路径
+     * @throws StorageException 存储异常信息
+     */
+    protected abstract String doPutObject(String key, byte[] content) throws StorageException;
 
     /**
      * 获取存储对象的访问地址
      *
-     * @param key  对象名称
-     *             上传文件到OSS时需要指定包含文件后缀在内的完整路径，
-     *             例如abc/efg/123.jpg。
+     * @param keyPath 对象名称 上传文件到OSS时需要指定包含文件后缀在内的完整路径， 例如abc/efg/123.jpg。
      * @return 返回对象对应的访问地址
      */
-    protected String getObjectUrl(String key) {
-        String result = Strings.nullToEmpty(key);
+    protected String getObjectUrl(String keyPath) {
+        String result = Strings.nullToEmpty(keyPath);
         String domain = storageConfig.getDomain();
         if (!Strings.isNullOrEmpty(domain)) {
-            result = domain + "/" + key;
+            result = domain + "/" + keyPath;
         }
 
         return Strings.emptyToNull(result);

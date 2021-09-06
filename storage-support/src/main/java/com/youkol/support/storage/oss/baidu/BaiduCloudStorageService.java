@@ -56,19 +56,21 @@ public class BaiduCloudStorageService extends AbstractStorageService<BaiduCloudS
     }
 
     @Override
-    protected void doPutObject(String key, InputStream inputStream) throws StorageException {
+    protected String doPutObject(String key, InputStream inputStream) throws StorageException {
         try {
             String bucketName = this.getStorageConfig().getBucketName();
             PutObjectRequest request = new PutObjectRequest(bucketName, key, inputStream);
             bosClient.putObject(request);
+
+            return key;
         } catch (Exception ex) {
             throw new StorageException(ex);
         }
     }
 
     @Override
-    protected void doPutObject(String key, byte[] content) throws StorageException {
-        putObject(key, new ByteArrayInputStream(content));
+    protected String doPutObject(String key, byte[] content) throws StorageException {
+        return doPutObject(key, new ByteArrayInputStream(content));
     }
 
     public BosClient getBosClient() {

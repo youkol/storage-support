@@ -60,21 +60,23 @@ public class QiniuCloudStorageService extends AbstractStorageService<QiniuCloudS
     }
 
     @Override
-    protected void doPutObject(String key, InputStream inputStream) throws StorageException {
+    protected String doPutObject(String key, InputStream inputStream) throws StorageException {
         try {
-            putObject(key, ByteStreams.toByteArray(inputStream));
+            return doPutObject(key, ByteStreams.toByteArray(inputStream));
         } catch (IOException ex) {
             throw new StorageException(ex);
         }
     }
 
     @Override
-    protected void doPutObject(String key, byte[] content) throws StorageException {
+    protected String doPutObject(String key, byte[] content) throws StorageException {
         try {
             Response response = uploadManager.put(content, key, upToken);
             if (!response.isOK()) {
                 throw new StorageException("Qiniu upload file went wrong: " + response.toString());
             }
+
+            return key;
         } catch (Exception ex) {
             throw new StorageException(ex);
         }

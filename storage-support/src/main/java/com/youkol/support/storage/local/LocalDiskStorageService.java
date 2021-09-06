@@ -44,7 +44,7 @@ public class LocalDiskStorageService extends AbstractStorageService<LocalDiskSto
     }
 
     @Override
-    protected void doPutObject(String key, InputStream inputStream) throws StorageException {
+    protected String doPutObject(String key, InputStream inputStream) throws StorageException {
         try {
             LocalDiskStorageConfig localConfig = (LocalDiskStorageConfig)this.getStorageConfig();
             Path targetPath = Paths.get(localConfig.getUploadLocation(), key);
@@ -53,15 +53,16 @@ public class LocalDiskStorageService extends AbstractStorageService<LocalDiskSto
             }
 
             Files.copy(inputStream, targetPath);
+
+            return key;
         } catch (Exception ex) {
             throw new StorageException(ex);
         }
     }
 
     @Override
-    protected void doPutObject(String key, byte[] content) throws StorageException {
-        putObject(key, new ByteArrayInputStream(content));
+    protected String doPutObject(String key, byte[] content) throws StorageException {
+        return putObject(key, new ByteArrayInputStream(content));
     }
-
 
 }

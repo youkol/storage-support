@@ -13,47 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.youkol.support.storage.spring.boot.autoconfigure;
+package com.youkol.support.storage.fastdfs;
+
+import com.youkol.support.storage.StorageConfig;
 
 /**
  *
  * @author jackiea
  */
-public enum StorageType {
+public class FastDfsStorageConfig implements StorageConfig {
 
-    /**
-     * Aliyun oss
-     */
-    ALIYUN,
+    private String domain;
 
-    /**
-     * Tencent oss
-     */
-    TENCENT,
+    @Override
+    public String getDomain() {
+        return this.domain;
+    }
 
-    /**
-     * Baidu oss
-     */
-    BAIDU,
-
-    /**
-     * Qiniu oss
-     */
-    QINIU,
-
-    /**
-     * MinIO
-     */
-    MINIO,
-
-    /**
-     * FastDFS
-     */
-    FASTDFS,
-
-    /**
-     * Local disk storage
-     */
-    LOCAL
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
 
 }

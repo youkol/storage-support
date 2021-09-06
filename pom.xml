@@ -89,6 +89,7 @@
     <qcloud.cos.version>5.6.15</qcloud.cos.version>
     <baidu.bce.version>0.10.92</baidu.bce.version>
     <minio.version>8.3.0</minio.version>
+    <tobato.fastdfs.client.version>1.27.2</tobato.fastdfs.client.version>
     <spring.boot.version>2.2.4.RELEASE</spring.boot.version>
   </properties>
 
@@ -116,6 +117,11 @@
     <dependency>
       <groupId>io.minio</groupId>
       <artifactId>minio</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>com.github.tobato</groupId>
+      <artifactId>fastdfs-client</artifactId>
       <optional>true</optional>
     </dependency>
   </dependencies>
@@ -158,6 +164,11 @@
         <groupId>io.minio</groupId>
         <artifactId>minio</artifactId>
         <version>${minio.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.github.tobato</groupId>
+        <artifactId>fastdfs-client</artifactId>
+        <version>${tobato.fastdfs.client.version}</version>
       </dependency>
       <dependency>
         <!-- Import dependency management from Spring Boot -->

@@ -57,7 +57,7 @@ public class MinioStorageService extends AbstractStorageService<MinioStorageConf
     }
 
     @Override
-    protected void doPutObject(String key, InputStream inputStream) throws StorageException {
+    protected String doPutObject(String key, InputStream inputStream) throws StorageException {
         try {
             PutObjectArgs putObjectArgs = PutObjectArgs.builder()
                     .bucket(this.getStorageConfig().getBucketName())
@@ -66,13 +66,15 @@ public class MinioStorageService extends AbstractStorageService<MinioStorageConf
                     .build();
 
             this.minioClient.putObject(putObjectArgs);
+
+            return key;
         } catch (Exception ex) {
             throw new StorageException(ex);
         }
     }
 
     @Override
-    protected void doPutObject(String key, byte[] content) throws StorageException {
+    protected String doPutObject(String key, byte[] content) throws StorageException {
         try (ByteArrayInputStream bais = new ByteArrayInputStream(content)) {
             PutObjectArgs putObjectArgs = PutObjectArgs.builder()
                     .bucket(this.getStorageConfig().getBucketName())
@@ -81,6 +83,8 @@ public class MinioStorageService extends AbstractStorageService<MinioStorageConf
                     .build();
 
             this.minioClient.putObject(putObjectArgs);
+
+            return key;
         } catch (Exception ex) {
             throw new StorageException(ex);
         }

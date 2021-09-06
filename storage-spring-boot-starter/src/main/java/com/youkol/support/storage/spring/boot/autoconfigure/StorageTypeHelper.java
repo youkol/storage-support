@@ -34,6 +34,7 @@ class StorageTypeHelper {
         mappings.put(StorageType.BAIDU, BaiduCloudStorageConfiguration.class);
         mappings.put(StorageType.QINIU, QiniuCloudStorageConfiguration.class);
         mappings.put(StorageType.MINIO, MinioStorageConfiguration.class);
+        mappings.put(StorageType.FASTDFS, FastDfsConfiguration.class);
 
         MAPPINGS = Collections.unmodifiableMap(mappings);
     }
