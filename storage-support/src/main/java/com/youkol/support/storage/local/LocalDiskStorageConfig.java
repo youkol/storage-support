@@ -30,6 +30,8 @@ public class LocalDiskStorageConfig implements StorageConfig {
 
     private String domain;
 
+    private String contextPath;
+
     public String getUploadLocation() {
         return uploadLocation;
     }
@@ -44,6 +46,14 @@ public class LocalDiskStorageConfig implements StorageConfig {
 
     public void setDomain(String domain) {
         this.domain = domain;
+    }
+
+    public String getContextPath() {
+        return contextPath;
+    }
+
+    public void setContextPath(String contextPath) {
+        this.contextPath = contextPath;
     }
 
 }

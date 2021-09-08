@@ -48,7 +48,7 @@ class AliyunCloudStorageConfiguration {
     public AliyunCloudStorageService storageService(StorageProperties storageProperties) {
         AliyunCloudStorageConfig storageConfig = new AliyunCloudStorageConfig();
 
-        Aliyun aliyun = storageProperties.getAliyun();
+        Aliyun aliyun = storageProperties.getOss().getAliyun();
         storageConfig.setDomain(aliyun.getDomain());
         storageConfig.setAccessKeyId(aliyun.getAccessKeyId());
         storageConfig.setAccessKeySecret(aliyun.getAccessKeySecret());

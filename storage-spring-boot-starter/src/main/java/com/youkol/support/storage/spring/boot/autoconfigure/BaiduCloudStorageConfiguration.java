@@ -48,7 +48,7 @@ class BaiduCloudStorageConfiguration {
     public BaiduCloudStorageService storageService(StorageProperties storageProperties) {
         BaiduCloudStorageConfig storageConfig = new BaiduCloudStorageConfig();
 
-        Baidu baidu = storageProperties.getBaidu();
+        Baidu baidu = storageProperties.getOss().getBaidu();
         storageConfig.setDomain(baidu.getDomain());
         storageConfig.setAccessKeyId(baidu.getAccessKeyId());
         storageConfig.setAccessKeySecret(baidu.getAccessKeySecret());

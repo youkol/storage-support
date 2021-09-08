@@ -48,7 +48,7 @@ class TencentCloudStorageConfiguration {
     public TencentCloudStorageService storageService(StorageProperties storageProperties) {
         TencentCloudStorageConfig storageConfig = new TencentCloudStorageConfig();
 
-        Tencent tencent = storageProperties.getTencent();
+        Tencent tencent = storageProperties.getOss().getTencent();
         storageConfig.setDomain(tencent.getDomain());
         storageConfig.setSecretId(tencent.getSecretId());
         storageConfig.setSecretKey(tencent.getSecretKey());

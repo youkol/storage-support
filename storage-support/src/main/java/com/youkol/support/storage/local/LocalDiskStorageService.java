@@ -24,15 +24,18 @@ import java.nio.file.Paths;
 import com.youkol.support.storage.AbstractStorageService;
 import com.youkol.support.storage.StorageException;
 
+import org.springframework.util.StringUtils;
+
 /**
  * 本地磁盘存储服务 <br>
  * 示例：
+ *
  * <pre>
- *     LocalDiskStorageConfig localConfig = new LocalDiskStorageConfig();
- *     StorageService service = new LocalDiskStorageService(localConfig);
- *     String fileName = "C:\\1111.jpg";
- *     FileInputStream inputStream = new FileInputStream(new File(fileName));
- *     String url = service.putObject("image/2018-11/13/10101.jpg", inputStream);
+ * LocalDiskStorageConfig localConfig = new LocalDiskStorageConfig();
+ * StorageService service = new LocalDiskStorageService(localConfig);
+ * String fileName = "C:\\1111.jpg";
+ * FileInputStream inputStream = new FileInputStream(new File(fileName));
+ * String url = service.putObject("image/2018-11/13/10101.jpg", inputStream);
  * </pre>
  *
  * @author jackiea
@@ -46,7 +49,7 @@ public class LocalDiskStorageService extends AbstractStorageService<LocalDiskSto
     @Override
     protected String doPutObject(String key, InputStream inputStream) throws StorageException {
         try {
-            LocalDiskStorageConfig localConfig = (LocalDiskStorageConfig)this.getStorageConfig();
+            LocalDiskStorageConfig localConfig = this.getStorageConfig();
             Path targetPath = Paths.get(localConfig.getUploadLocation(), key);
             if (targetPath.getParent() != null) {
                 Files.createDirectories(targetPath.getParent());
@@ -54,7 +57,8 @@ public class LocalDiskStorageService extends AbstractStorageService<LocalDiskSto
 
             Files.copy(inputStream, targetPath);
 
-            return key;
+            String contextPath = localConfig.getContextPath();
+            return StringUtils.hasText(contextPath) ? contextPath + "/" + key : key;
         } catch (Exception ex) {
             throw new StorageException(ex);
         }
@@ -62,7 +66,7 @@ public class LocalDiskStorageService extends AbstractStorageService<LocalDiskSto
 
     @Override
     protected String doPutObject(String key, byte[] content) throws StorageException {
-        return putObject(key, new ByteArrayInputStream(content));
+        return doPutObject(key, new ByteArrayInputStream(content));
     }
 
 }

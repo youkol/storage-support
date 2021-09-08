@@ -16,27 +16,20 @@
 package com.youkol.support.storage.spring.boot.autoconfigure;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.util.StringUtils;
 
 /**
  *
  * @author jackiea
  */
-@ConfigurationProperties(prefix = "youkol.storage.oss")
+@ConfigurationProperties(prefix = "youkol.storage")
 public class StorageProperties {
 
     private StorageType type;
 
     private final LocalDisk local = new LocalDisk();
 
-    private final Aliyun aliyun = new Aliyun();
-
-    private final Qiniu qiniu = new Qiniu();
-
-    private final Baidu baidu = new Baidu();
-
-    private final Tencent tencent = new Tencent();
-
-    private final Minio minio = new Minio();
+    private final ObjectStorageService oss = new ObjectStorageService();
 
     private final FastDfs fastdfs = new FastDfs();
 
@@ -52,24 +45,8 @@ public class StorageProperties {
         return local;
     }
 
-    public Aliyun getAliyun() {
-        return aliyun;
-    }
-
-    public Qiniu getQiniu() {
-        return qiniu;
-    }
-
-    public Baidu getBaidu() {
-        return baidu;
-    }
-
-    public Tencent getTencent() {
-        return tencent;
-    }
-
-    public Minio getMinio() {
-        return minio;
+    public ObjectStorageService getOss() {
+        return oss;
     }
 
     public FastDfs getFastdfs() {
@@ -78,9 +55,17 @@ public class StorageProperties {
 
     public static class LocalDisk {
 
+        /**
+         * example: "/data/upload"
+         */
         private String uploadLocation;
 
         private String domain;
+
+        /**
+         * example: "/upload"
+         */
+        private String contextPath;
 
         public String getUploadLocation() {
             return uploadLocation;
@@ -96,6 +81,22 @@ public class StorageProperties {
 
         public void setDomain(String domain) {
             this.domain = domain;
+        }
+
+        public String getContextPath() {
+            return contextPath;
+        }
+
+        public void setContextPath(String contextPath) {
+            this.contextPath = cleanContextPath(contextPath);
+        }
+
+        private String cleanContextPath(String contextPath) {
+            String candidate = StringUtils.trimWhitespace(contextPath);
+            if (StringUtils.hasText(candidate) && candidate.endsWith("/")) {
+                return candidate.substring(0, candidate.length() - 1);
+            }
+            return candidate;
         }
     }
 
@@ -364,6 +365,38 @@ public class StorageProperties {
             this.endpoint = endpoint;
         }
 
+    }
+
+    public static class ObjectStorageService {
+        private final Aliyun aliyun = new Aliyun();
+
+        private final Qiniu qiniu = new Qiniu();
+
+        private final Baidu baidu = new Baidu();
+
+        private final Tencent tencent = new Tencent();
+
+        private final Minio minio = new Minio();
+
+        public Aliyun getAliyun() {
+            return aliyun;
+        }
+
+        public Qiniu getQiniu() {
+            return qiniu;
+        }
+
+        public Baidu getBaidu() {
+            return baidu;
+        }
+
+        public Tencent getTencent() {
+            return tencent;
+        }
+
+        public Minio getMinio() {
+            return minio;
+        }
     }
 
     public static class FastDfs {

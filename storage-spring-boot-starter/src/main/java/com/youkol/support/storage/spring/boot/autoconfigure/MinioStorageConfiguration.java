@@ -50,7 +50,7 @@ public class MinioStorageConfiguration {
     public MinioStorageService storageService(StorageProperties storageProperties) throws StorageException {
         MinioStorageConfig storageConfig = new MinioStorageConfig();
 
-        Minio minio = storageProperties.getMinio();
+        Minio minio = storageProperties.getOss().getMinio();
         storageConfig.setDomain(minio.getDomain());
         storageConfig.setAccessKey(minio.getAccessKey());
         storageConfig.setSecretKey(minio.getSecretKey());

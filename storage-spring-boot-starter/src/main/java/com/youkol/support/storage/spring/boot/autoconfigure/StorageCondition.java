@@ -46,7 +46,7 @@ class StorageCondition extends SpringBootCondition {
         ConditionMessage.Builder message = ConditionMessage.forCondition("Storage", sourceClass);
         Environment environment = context.getEnvironment();
         try {
-            BindResult<StorageType> specified = Binder.get(environment).bind("youkol.storage.oss.type", StorageType.class);
+            BindResult<StorageType> specified = Binder.get(environment).bind("youkol.storage.type", StorageType.class);
             if (!specified.isBound()) {
                 return ConditionOutcome.match(message.because("automatic storage type"));
             }

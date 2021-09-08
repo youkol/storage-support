@@ -48,7 +48,7 @@ class QiniuCloudStorageConfiguration {
     public QiniuCloudStorageService storageService(StorageProperties storageProperties) {
         QiniuCloudStorageConfig storageConfig = new QiniuCloudStorageConfig();
 
-        Qiniu qiniu = storageProperties.getQiniu();
+        Qiniu qiniu = storageProperties.getOss().getQiniu();
         storageConfig.setDomain(qiniu.getDomain());
         storageConfig.setAccessKey(qiniu.getAccessKey());
         storageConfig.setSecretKey(qiniu.getSecretKey());
