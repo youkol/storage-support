@@ -17,7 +17,7 @@ package com.youkol.support.storage;
 
 import java.io.InputStream;
 
-import com.google.common.base.Strings;
+import org.springframework.util.StringUtils;
 
 /**
  * 对象存储服务抽象类实现
@@ -38,7 +38,7 @@ public abstract class AbstractStorageService<T extends StorageConfig> implements
     }
 
     public String putObject(String key, byte[] content) throws StorageException {
-        String keyPath =this.doPutObject(key, content);
+        String keyPath = this.doPutObject(key, content);
         return this.getObjectUrl(keyPath);
     }
 
@@ -69,13 +69,23 @@ public abstract class AbstractStorageService<T extends StorageConfig> implements
      * @return 返回对象对应的访问地址
      */
     protected String getObjectUrl(String keyPath) {
-        String result = Strings.nullToEmpty(keyPath);
-        String domain = storageConfig.getDomain();
-        if (!Strings.isNullOrEmpty(domain)) {
-            result = domain + "/" + keyPath;
+        String result = "";
+        if (StringUtils.hasText(keyPath)) {
+            result = result + keyPath;
         }
 
-        return Strings.emptyToNull(result);
+        String domain = storageConfig.getDomain();
+        if (StringUtils.hasText(domain)) {
+            domain = domain.endsWith("/") ? domain.substring(0, domain.length() - 1) : domain;
+            String path = keyPath.startsWith("/") ? keyPath.substring(1) : keyPath;
+            result = domain + "/" + path;
+        }
+
+        if (!StringUtils.hasText(result)) {
+            return null;
+        }
+
+        return result;
     }
 
     public T getStorageConfig() {

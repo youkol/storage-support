@@ -18,7 +18,6 @@ package com.youkol.support.storage.oss.qiniu;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.google.common.io.ByteStreams;
 import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.Region;
@@ -26,6 +25,8 @@ import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
 import com.youkol.support.storage.AbstractStorageService;
 import com.youkol.support.storage.StorageException;
+
+import org.springframework.util.StreamUtils;
 
 /**
  * 七牛云对象存储
@@ -62,7 +63,7 @@ public class QiniuCloudStorageService extends AbstractStorageService<QiniuCloudS
     @Override
     protected String doPutObject(String key, InputStream inputStream) throws StorageException {
         try {
-            return doPutObject(key, ByteStreams.toByteArray(inputStream));
+            return doPutObject(key, StreamUtils.copyToByteArray(inputStream));
         } catch (IOException ex) {
             throw new StorageException(ex);
         }
