@@ -29,7 +29,7 @@
   <groupId>com.youkol.support.storage</groupId>
   <artifactId>storage-parent</artifactId>
   <packaging>pom</packaging>
-  <version>0.1.1-SNAPSHOT</version>
+  <version>0.1.1</version>
 
   <name>Parent pom for Local and Cloud Storage support</name>
   <description>Parent pom for Local and Cloud Storage support.</description>
@@ -64,7 +64,7 @@
     <connection>scm:git:git://github.com/youkol/storage-support.git</connection>
     <developerConnection>scm:git:git@github.com:youkol/storage-support.git</developerConnection>
     <url>https://github.com/youkol/storage-support</url>
-    <tag>v0.1.0</tag>
+    <tag>v0.1.1</tag>
   </scm>
 
   <issueManagement>
